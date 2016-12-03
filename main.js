@@ -1,3 +1,5 @@
+if (require('electron-squirrel-startup')) return;
+
 const electron = require('electron')
 // Module to control application life.
 const app = electron.app
@@ -7,6 +9,11 @@ const BrowserWindow = electron.BrowserWindow
 const path = require('path')
 const url = require('url')
 
+const autoUpdater = electron.autoUpdater;
+const appVersion = require('./package.json').version;
+const os = require('os').platform();
+var updateFeed = 'http://127.0.0.1:8000/';
+autoUpdater.setFeedURL(updateFeed + '?v=' + appVersion);
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -14,7 +21,6 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
-
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, 'index.html'),
@@ -32,6 +38,7 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+  autoUpdater.checkForUpdates();
 }
 
 // This method will be called when Electron has finished
