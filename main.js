@@ -14,6 +14,19 @@ const appVersion = require('./package.json').version;
 const os = require('os').platform();
 var updateFeed = 'http://127.0.0.1:8000/';
 autoUpdater.setFeedURL(updateFeed + '?v=' + appVersion);
+autoUpdater.on('checking-for-update', function () {
+    console.log('checking-for-update')
+});
+autoUpdater.on('update-available', function () {
+    console.log('update-available')
+});
+autoUpdater.on('update-not-available', function () {
+    console.log('update-not-available')
+});
+autoUpdater.on('update-downloaded', function () {
+    console.log('update-downloaded')
+    autoUpdater.quitAndInstall();
+});
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
